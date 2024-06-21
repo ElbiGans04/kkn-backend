@@ -24,7 +24,7 @@ class AuthDataRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'numeric', 'max:50'],
+            'id' => ['required', 'numeric'],
             'password' => ['required', 'max:100'],
             'type_account' => ['required', Rule::enum(TipeAkun::class)],
         ];
