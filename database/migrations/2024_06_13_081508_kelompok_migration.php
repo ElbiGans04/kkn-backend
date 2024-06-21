@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('kelompok', function (Blueprint $table) {
             $table->id('id_kelompok');
-            $table->foreignId('id_dospem')->constrained( table: 'dosen', indexName: 'posts_dospem_id', column: 'id_dosen');
+            $table->foreignId('id_dospem')->nullable()->constrained( table: 'dosen', indexName: 'posts_dospem_id', column: 'id_dosen');
             $table->string('nim_ketua_kelompok')->unique();
             $table->foreign('nim_ketua_kelompok')->references('nim')->on('mahasiswa');
-            $table->boolean('approve');
+            $table->boolean('approve')->default(false);
             $table->timestamps();
         });
     }

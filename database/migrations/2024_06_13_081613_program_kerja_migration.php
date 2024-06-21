@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('judul_proker');
             $table->string('body_proker');
             $table->foreignId('id_kelompok')->constrained( table: 'kelompok', indexName: 'posts_kelompok3_id', column: 'id_kelompok');
-            $table->boolean('approve');
+            $table->boolean('approve')->default(false);
             $table->timestamps();
         });
     }
