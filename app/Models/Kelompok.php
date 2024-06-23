@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Kelompok extends Model
 {
@@ -20,4 +21,11 @@ class Kelompok extends Model
      * @var string
      */
     protected $primaryKey = 'id_kelompok';
+    /**
+     * Get the anggota associated with the kelompok.
+     */
+    public function anggota(): HasMany
+    {
+        return  $this->hasMany(Anggota::class, 'id_kelompok', 'id_kelompok');
+    }
 }

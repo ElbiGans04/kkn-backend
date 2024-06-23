@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\StatusPersetujuan;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,9 +15,9 @@ return new class extends Migration
         Schema::create('kelompok', function (Blueprint $table) {
             $table->id('id_kelompok');
             $table->foreignId('id_dospem')->nullable()->constrained( table: 'dosen', indexName: 'posts_dospem_id', column: 'id_dosen');
-            $table->string('nim_ketua_kelompok')->unique();
+            $table->string('nim_ketua_kelompok');
             $table->foreign('nim_ketua_kelompok')->references('nim')->on('mahasiswa');
-            $table->boolean('approve')->default(false);
+            $table->enum('approve', ['approve', 'reject', 'review'])->default(StatusPersetujuan::review);
             $table->timestamps();
         });
     }

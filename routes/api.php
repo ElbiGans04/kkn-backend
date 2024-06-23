@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\AuthCustomController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,15 +26,15 @@ use Illuminate\Support\Facades\Route;
 
 */
 
-// Route::middleware('auth:sanctum')->group(function () {
-//     Route::prefix("/guru")->group(function () {
-//         Route::get('/', [GuruController::class, 'GetAllGuruData'])->name('guru.all');
-//         Route::get('/{id}', [GuruController::class, 'GetGuruData'])->name('guru.spesific');
-//         Route::post('/', [GuruController::class, 'StoreGuruData'])->name('guru.store');
-//         Route::put('/{id}', [GuruController::class, 'UpdateGuruData'])->name('guru.update');
-//         Route::delete('/{id}', [GuruController::class, 'DeleteGuruData'])->name('guru.delete');
-//     });
-// });
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix("/anggota")->group(function () {
+        Route::get('/', [AnggotaController::class, 'GetAllAnggotaData'])->name('anggota.all');
+        Route::get('/{id}', [AnggotaController::class, 'GetAnggotaData'])->name('anggota.spesific');
+        Route::post('/', [AnggotaController::class, 'StoreAnggotaData'])->name('anggota.store');
+        Route::put('/{id}', [AnggotaController::class, 'UpdateAnggotaData'])->name('anggota.update');
+        Route::delete('/{id}', [AnggotaController::class, 'DeleteAnggotaData'])->name('anggota.delete');
+    });
+});
 
 
 Route::prefix('/auth')->group(function () {

@@ -2,16 +2,19 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\TipeAkun;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class AnggotaDataRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
+    public function authorize(Request $request): bool
     {
-        return false;
+        $user = $request->user();
+        return $user['tipe_akun'] == TipeAkun::mahasiswa->value;
     }
 
     /**
@@ -22,7 +25,8 @@ class AnggotaDataRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "anggota"    => "required|array|max:5|min:1",
+            "anggota.*"  => "required|numeric",
         ];
     }
 }
