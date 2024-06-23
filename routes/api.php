@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\AuthCustomController;
+use App\Http\Controllers\KelompokController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,12 +28,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::prefix("/anggota")->group(function () {
-        Route::get('/', [AnggotaController::class, 'GetAllAnggotaData'])->name('anggota.all');
-        Route::get('/{id}', [AnggotaController::class, 'GetAnggotaData'])->name('anggota.spesific');
-        Route::post('/', [AnggotaController::class, 'StoreAnggotaData'])->name('anggota.store');
-        Route::put('/{id}', [AnggotaController::class, 'UpdateAnggotaData'])->name('anggota.update');
-        Route::delete('/{id}', [AnggotaController::class, 'DeleteAnggotaData'])->name('anggota.delete');
+    Route::prefix("/kelompok")->group(function () {
+        Route::get('/', [KelompokController::class, 'GetAllKelompokData'])->name('kelompok.all');
+        Route::get('/{id}', [KelompokController::class, 'GetKelompokData'])->name('kelompok.spesific');
+        Route::post('/', [KelompokController::class, 'StoreKelompokData'])->name('kelompok.store');
+        Route::put('/{id}', [KelompokController::class, 'UpdateKelompokData'])->name('kelompok.update');
+        Route::delete('/{id}', [KelompokController::class, 'DeleteKelompokData'])->name('kelompok.delete');
+        Route::put('/{id}/status', [KelompokController::class, 'UpdateKelompokStatus'])->name('kelompok.updateStatus');
+        Route::put('/{id}/dospem', [KelompokController::class, 'UpdateKelompokDospem'])->name('kelompok.updateDosepm');
     });
 });
 
