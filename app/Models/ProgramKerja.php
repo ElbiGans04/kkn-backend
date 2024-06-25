@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProgramKerja extends Model
 {
@@ -20,4 +21,11 @@ class ProgramKerja extends Model
      * @var string
      */
     protected $primaryKey = 'id_proker';
+    /**
+     * Get the kelompok associated with the program_kerja.
+     */
+    public function kelompok(): BelongsTo
+    {
+        return  $this->belongsTo(Kelompok::class, 'id_kelompok', 'id_kelompok');
+    }
 }

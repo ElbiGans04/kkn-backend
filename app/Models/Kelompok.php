@@ -28,4 +28,11 @@ class Kelompok extends Model
     {
         return  $this->hasMany(Anggota::class, 'id_kelompok', 'id_kelompok');
     }
+    /**
+     * Get the program kerja associated with the kelompok.
+     */
+    public function program_kerja(): HasMany
+    {
+        return  $this->hasMany(ProgramKerja::class, 'id_kelompok', 'id_kelompok');
+    }
 }

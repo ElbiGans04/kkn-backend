@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\AuthCustomController;
 use App\Http\Controllers\KelompokController;
+use App\Http\Controllers\ProgramKerjaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,16 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{id}/status', [KelompokController::class, 'UpdateKelompokStatus'])->name('kelompok.updateStatus');
         Route::put('/{id}/dospem', [KelompokController::class, 'UpdateKelompokDospem'])->name('kelompok.updateDosepm');
     });
+
+    Route::prefix("/program-kerja")->group(function () {
+        Route::get('/', [ProgramKerjaController::class, 'GetAllProgramKerjaData'])->name('program-kerja.all');
+        Route::get('/{id}', [ProgramKerjaController::class, 'GetProgramKerjaData'])->name('program-kerja.spesific');
+        Route::post('/', [ProgramKerjaController::class, 'StoreProgramKerjaData'])->name('program-kerja.store');
+        Route::put('/{id}', [ProgramKerjaController::class, 'UpdateProgramKerjaData'])->name('program-kerja.update');
+        Route::delete('/{id}', [ProgramKerjaController::class, 'DeleteProgramKerjaData'])->name('program-kerja.delete');
+    });
+
+    
 });
 
 
