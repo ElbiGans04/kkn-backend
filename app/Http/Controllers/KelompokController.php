@@ -40,18 +40,46 @@ class KelompokController extends Controller
     {
         $data = $request->validated();
         $detailCurrentUser = Mahasiswa::where('id_user', '=', $request->user()['id'])->first();
-        $alreadyRegister = Anggota::whereIn('nim_mahasiswa', $data['anggota'])->join('kelompok', 'anggota.id_kelompok', '=', 'kelompok.id_kelompok')->first();
-        $isLeader = Kelompok::whereIn('nim_ketua_kelompok', [...$data['anggota'], $detailCurrentUser['nim']])->first();
 
-        $isAlreadyBeLeader = (isset($isLeader) && $isLeader['approve'] != StatusPersetujuan::reject->value);
-        if ((isset($alreadyRegister) && $alreadyRegister['approve'] != StatusPersetujuan::reject->value) || $isAlreadyBeLeader) {
-            return response(
-                [
-                    "message" => $isAlreadyBeLeader ? "Tidak dapat menjadi ketua didalam 2 kelompok yang berbeda" : "Ada 1 atau lebih mahasiswa ada yang sudah terdaftar didalam kelompok lain"
-                ],
-                400
-            );
+        // Filter Change
+        $calonMember = [...$data['anggota'], $detailCurrentUser['nim']];
+        $alreadyRegister = Anggota::whereIn('nim_mahasiswa', $calonMember)->join('kelompok', 'anggota.id_kelompok', '=', 'kelompok.id_kelompok')->get();
+        $isLeader = Kelompok::whereIn('nim_ketua_kelompok', $calonMember)->get();
+
+        // Filter
+        foreach ($alreadyRegister as $item) {
+            if ($item['approve'] != StatusPersetujuan::reject->value) {
+                $username = $item['nim_mahasiswa'] == $detailCurrentUser['nim'] ? "Anda" : "Anggota dengan nim {$item['nim_mahasiswa']}";
+                return response(
+                    [
+                        "message" => "$username sudah terdaftar dalam kelompok lain"
+                    ],
+                    400
+                );
+            }
         }
+
+        foreach ($isLeader as $item) {
+            if ($item['approve'] != StatusPersetujuan::reject->value) {
+                $username = $item['nim_ketua_kelompok'] == $detailCurrentUser['nim'] ? "Anda" : "Anggota dengan nim {$item['nim_mahasiswa']}";
+                return response(
+                    [
+                        "message" => "$username sudah menjadi ketua kelompok lain"
+                    ],
+                    400
+                );
+            }
+        }
+
+        // $isAlreadyBeLeader = (isset($isLeader) && $isLeader['approve'] != StatusPersetujuan::reject->value);
+        // if ((isset($alreadyRegister) && $alreadyRegister['approve'] != StatusPersetujuan::reject->value) || $isAlreadyBeLeader) {
+        //     return response(
+        //         [
+        //             "message" => $isAlreadyBeLeader ? "Tidak dapat menjadi ketua didalam 2 kelompok yang berbeda" : "Ada 1 atau lebih mahasiswa ada yang sudah terdaftar didalam kelompok lain"
+        //         ],
+        //         400
+        //     );
+        // }
 
         for ($index = 0; $index < count($data['anggota']); $index++) {
             $currentMahasiswaNim = $data['anggota'][$index];
@@ -62,6 +90,7 @@ class KelompokController extends Controller
                 ], 400);
             };
         }
+
 
         DB::transaction(function () use ($data, $detailCurrentUser) {
             // Buat Kelompok
@@ -98,15 +127,47 @@ class KelompokController extends Controller
             );
         }
 
-        $alreadyRegister = Anggota::with(['kelompok'])->whereIn('nim_mahasiswa', $data['anggota'])->whereNot('id_kelompok', $id)->first();
+        // $alreadyRegister = Anggota::with(['kelompok'])->whereIn('nim_mahasiswa', $data['anggota'])->whereNot('id_kelompok', $id)->first();
 
-        if (isset($alreadyRegister) && $alreadyRegister['approve'] != StatusPersetujuan::reject->value) {
-            return response(
-                [
-                    "message" => "Ada 1 atau lebih mahasiswa ada yang sudah terdaftar didalam kelompok lain"
-                ],
-                400
-            );
+        // if (isset($alreadyRegister) && $alreadyRegister['approve'] != StatusPersetujuan::reject->value) {
+        //     return response(
+        //         [
+        //             "message" => "Ada 1 atau lebih mahasiswa ada yang sudah terdaftar didalam kelompok lain"
+        //         ],
+        //         400
+        //     );
+        // }
+
+        $detailCurrentUser = Mahasiswa::where('id_user', '=', $request->user()['id'])->first();
+
+        // Filter Change
+        $calonMember = [...$data['anggota'], $detailCurrentUser['nim']];
+        $alreadyRegister = Anggota::whereIn('nim_mahasiswa', $calonMember)->join('kelompok', 'anggota.id_kelompok', '=', 'kelompok.id_kelompok')->get();
+        $isLeader = Kelompok::whereIn('nim_ketua_kelompok', $calonMember)->get();
+
+        // Filter
+        foreach ($alreadyRegister as $item) {
+            if ($item['approve'] != StatusPersetujuan::reject->value) {
+                $username = $item['nim_mahasiswa'] == $detailCurrentUser['nim'] ? "Anda" : "Anggota dengan nim {$item['nim_mahasiswa']}";
+                return response(
+                    [
+                        "message" => "$username sudah terdaftar dalam kelompok lain"
+                    ],
+                    400
+                );
+            }
+        }
+
+        foreach ($isLeader as $item) {
+            if ($item['approve'] != StatusPersetujuan::reject->value) {
+                $username = $item['nim_ketua_kelompok'] == $detailCurrentUser['nim'] ? "Anda" : "Anggota dengan nim {$item['nim_mahasiswa']}";
+                return response(
+                    [
+                        "message" => "$username sudah menjadi ketua kelompok lain"
+                    ],
+                    400
+                );
+            }
         }
 
         for ($index = 0; $index < count($data['anggota']); $index++) {
@@ -141,7 +202,7 @@ class KelompokController extends Controller
 
         return response(
             [
-                "message" => "berhasil memperbaharui data"
+                "message" => "Berhasil memperbaharui data"
             ],
             200
         );
