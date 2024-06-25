@@ -125,9 +125,9 @@ class ProgramKerjaController extends Controller
     /**
      * Update Data to database
      */
-    public function UpdateKelompokStatus($id, Request $request)
+    public function UpdateProgramKerjaStatus($id, Request $request)
     {
-        $isExist = Kelompok::find($id);
+        $isExist = ProgramKerja::find($id);
         $data = $request->validate([
             'status' => ['required', Rule::enum(StatusPersetujuan::class)]
         ]);

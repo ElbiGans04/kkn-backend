@@ -45,9 +45,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [ProgramKerjaController::class, 'StoreProgramKerjaData'])->name('program-kerja.store');
         Route::put('/{id}', [ProgramKerjaController::class, 'UpdateProgramKerjaData'])->name('program-kerja.update');
         Route::delete('/{id}', [ProgramKerjaController::class, 'DeleteProgramKerjaData'])->name('program-kerja.delete');
+        Route::put('/{id}/status', [ProgramKerjaController::class, 'UpdateProgramKerjaStatus'])->name('program-kerja.update_status');
     });
 
-    
+
 });
 
 
