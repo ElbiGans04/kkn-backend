@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('anggota', function (Blueprint $table) {
             $table->id('id_anggota');
             $table->foreignId('id_kelompok')->constrained( table: 'kelompok', indexName: 'posts_kelompok_id', column: 'id_kelompok');
-            $table->string('nim_mahasiswa')->unique();
+            $table->string('nim_mahasiswa');
             $table->foreign('nim_mahasiswa')->references('nim')->on('mahasiswa');
             $table->timestamps();
         });
