@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('komentar', function (Blueprint $table) {
             $table->id('id_komentar');
             $table->string('judul_komentar');
-            $table->string('body_komentar');
-            $table->date('tanggal_komentar');
-            $table->enum('jenis_komentar', ['LUPA']);
+            $table->string('body_komentar');            
+            $table->enum('jenis_komentar', ['REVIEW_KOMENTAR', 'REVIEW_PROGRAM_KERJA']);
             $table->foreignId('id_kelompok')->constrained( table: 'kelompok', indexName: 'posts_kelompok4_id', column: 'id_kelompok');
             $table->foreignId('id_dospem')->constrained( table: 'dosen', indexName: 'posts_dosen2_id', column: 'id_dosen');
             $table->timestamps();
