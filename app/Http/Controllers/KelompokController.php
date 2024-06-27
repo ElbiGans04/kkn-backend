@@ -41,6 +41,16 @@ class KelompokController extends Controller
         $data = $request->validated();
         $detailCurrentUser = Mahasiswa::where('id_user', '=', $request->user()['id'])->first();
 
+        $found = array_search($detailCurrentUser['nim'], $data['anggota']);
+        if (is_int($found)) {
+            return response(
+                [
+                    "message" => "Tidak dapat menjadikan diri sendiri sebagai anggota"
+                ],
+                400
+            );
+        }
+
         // Filter Change
         $calonMember = [...$data['anggota'], $detailCurrentUser['nim']];
         $alreadyRegister = Anggota::whereIn('nim_mahasiswa', $calonMember)->join('kelompok', 'anggota.id_kelompok', '=', 'kelompok.id_kelompok')->get();
@@ -139,6 +149,16 @@ class KelompokController extends Controller
         // }
 
         $detailCurrentUser = Mahasiswa::where('id_user', '=', $request->user()['id'])->first();
+
+        $found = array_search($detailCurrentUser['nim'], $data['anggota']);
+        if (is_int($found)) {
+            return response(
+                [
+                    "message" => "Tidak dapat menjadikan diri sendiri sebagai anggota"
+                ],
+                400
+            );
+        }
 
         // Filter Change
         $calonMember = [...$data['anggota'], $detailCurrentUser['nim']];
