@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('komentar', function (Blueprint $table) {
-            $table->id('id_komentar');
+        Schema::create('komentar_program_kerja', function (Blueprint $table) {
+            $table->id('id_komentar_proker');
             $table->string('judul_komentar');
             $table->string('body_komentar');            
-            $table->enum('jenis_komentar', ['REVIEW_KOMENTAR', 'REVIEW_PROGRAM_KERJA']);
-            $table->foreignId('id_kelompok')->constrained( table: 'kelompok', indexName: 'posts_kelompok4_id', column: 'id_kelompok');
-            $table->foreignId('id_dospem')->constrained( table: 'dosen', indexName: 'posts_dosen2_id', column: 'id_dosen');
+            $table->foreignId('id_proker')->constrained( table: 'program_kerja', indexName: 'posts_proker_id', column: 'id_proker');
+            $table->foreignId('id_dospem')->constrained( table: 'dosen', indexName: 'posts_dosen3_id', column: 'id_dosen');
             $table->timestamps();
         });
     }
