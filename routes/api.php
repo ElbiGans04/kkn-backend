@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthCustomController;
+use App\Http\Controllers\BimbinganController;
 use App\Http\Controllers\KelompokController;
 use App\Http\Controllers\KomentarKelompokController;
 use App\Http\Controllers\KomentarProgramKerjaController;
@@ -56,13 +57,20 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{id}', [KomentarKelompokController::class, 'DeleteKomentarKelompokData'])->name('komentar-kelompok.delete');
     });
 
-    // on going
     Route::prefix("/komentar/program-kerja")->group(function () {
         Route::get('/', [KomentarProgramKerjaController::class, 'GetAllKomentarProgramKerjaData'])->name('komentar-program-kerja.all');
         Route::get('/{id}', [KomentarProgramKerjaController::class, 'GetKomentarProgramKerjaData'])->name('komentar-program-kerja.spesific');
         Route::post('/', [KomentarProgramKerjaController::class, 'StoreKomentarProgramKerjaData'])->name('komentar-program-kerja.store');
         Route::put('/{id}', [KomentarProgramKerjaController::class, 'UpdateKomentarProgramKerjaData'])->name('komentar-program-kerja.update');
         Route::delete('/{id}', [KomentarProgramKerjaController::class, 'DeleteKomentarProgramKerjaData'])->name('komentar-program-kerja.delete');
+    });
+
+    Route::prefix("/bimbingan")->group(function () {
+        Route::get('/', [BimbinganController::class, 'GetAllBimbinganData'])->name('bimbingan.all');
+        Route::get('/{id}', [BimbinganController::class, 'GetBimbinganData'])->name('bimbingan.spesific');
+        Route::post('/', [BimbinganController::class, 'StoreBimbinganData'])->name('bimbingan.store');
+        Route::put('/{id}', [BimbinganController::class, 'UpdateBimbinganData'])->name('bimbingan.update');
+        Route::delete('/{id}', [BimbinganController::class, 'DeleteBimbinganData'])->name('bimbingan.delete');
     });
 
 

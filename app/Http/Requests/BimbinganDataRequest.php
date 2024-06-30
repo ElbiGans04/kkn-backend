@@ -11,7 +11,7 @@ class BimbinganDataRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class BimbinganDataRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => ['required', 'string'],
+            'body' => ['required', 'string'],
+            'tanggal_bimbingan' => ['required', 'date'],
+            'link_bimbingan' => ['required', 'url:http,https'],
+            'id_kelompok' => ['required', 'integer'],
         ];
     }
 }
