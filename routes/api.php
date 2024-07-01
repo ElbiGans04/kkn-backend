@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthCustomController;
 use App\Http\Controllers\BimbinganController;
 use App\Http\Controllers\KelompokController;
 use App\Http\Controllers\KomentarKelompokController;
+use App\Http\Controllers\KomentarLaporanController;
 use App\Http\Controllers\KomentarProgramKerjaController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProgramKerjaController;
@@ -50,21 +51,32 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{id}/status', [ProgramKerjaController::class, 'UpdateProgramKerjaStatus'])->name('program-kerja.update_status');
     });
 
-    Route::prefix("/komentar/kelompok")->group(function () {
-        Route::get('/', [KomentarKelompokController::class, 'GetAllKomentarKelompokData'])->name('komentar-kelompok.all');
-        Route::get('/{id}', [KomentarKelompokController::class, 'GetKomentarKelompokData'])->name('komentar-kelompok.spesific');
-        Route::post('/', [KomentarKelompokController::class, 'StoreKomentarKelompokData'])->name('komentar-kelompok.store');
-        Route::put('/{id}', [KomentarKelompokController::class, 'UpdateKomentarKelompokData'])->name('komentar-kelompok.update');
-        Route::delete('/{id}', [KomentarKelompokController::class, 'DeleteKomentarKelompokData'])->name('komentar-kelompok.delete');
+    Route::prefix("/komentar")->group(function () {
+        Route::prefix("kelompok")->group(function () {
+            Route::get('/', [KomentarKelompokController::class, 'GetAllKomentarKelompokData'])->name('komentar-kelompok.all');
+            Route::get('/{id}', [KomentarKelompokController::class, 'GetKomentarKelompokData'])->name('komentar-kelompok.spesific');
+            Route::post('/', [KomentarKelompokController::class, 'StoreKomentarKelompokData'])->name('komentar-kelompok.store');
+            Route::put('/{id}', [KomentarKelompokController::class, 'UpdateKomentarKelompokData'])->name('komentar-kelompok.update');
+            Route::delete('/{id}', [KomentarKelompokController::class, 'DeleteKomentarKelompokData'])->name('komentar-kelompok.delete');
+        });
+    
+        Route::prefix("program-kerja")->group(function () {
+            Route::get('/', [KomentarProgramKerjaController::class, 'GetAllKomentarProgramKerjaData'])->name('komentar-program-kerja.all');
+            Route::get('/{id}', [KomentarProgramKerjaController::class, 'GetKomentarProgramKerjaData'])->name('komentar-program-kerja.spesific');
+            Route::post('/', [KomentarProgramKerjaController::class, 'StoreKomentarProgramKerjaData'])->name('komentar-program-kerja.store');
+            Route::put('/{id}', [KomentarProgramKerjaController::class, 'UpdateKomentarProgramKerjaData'])->name('komentar-program-kerja.update');
+            Route::delete('/{id}', [KomentarProgramKerjaController::class, 'DeleteKomentarProgramKerjaData'])->name('komentar-program-kerja.delete');
+        });
+
+        Route::prefix("laporan")->group(function () {
+            Route::get('/', [KomentarLaporanController::class, 'GetAllKomentarLaporanData'])->name('komentar-laporan.all');
+            Route::get('/{id}', [KomentarLaporanController::class, 'GetKomentarLaporanData'])->name('komentar-laporan.spesific');
+            Route::post('/', [KomentarLaporanController::class, 'StoreKomentarLaporanData'])->name('komentar-laporan.store');
+            Route::put('/{id}', [KomentarLaporanController::class, 'UpdateKomentarLaporanData'])->name('komentar-laporan.update');
+            Route::delete('/{id}', [KomentarLaporanController::class, 'DeleteKomentarLaporanData'])->name('komentar-laporan.delete');
+        });
     });
 
-    Route::prefix("/komentar/program-kerja")->group(function () {
-        Route::get('/', [KomentarProgramKerjaController::class, 'GetAllKomentarProgramKerjaData'])->name('komentar-program-kerja.all');
-        Route::get('/{id}', [KomentarProgramKerjaController::class, 'GetKomentarProgramKerjaData'])->name('komentar-program-kerja.spesific');
-        Route::post('/', [KomentarProgramKerjaController::class, 'StoreKomentarProgramKerjaData'])->name('komentar-program-kerja.store');
-        Route::put('/{id}', [KomentarProgramKerjaController::class, 'UpdateKomentarProgramKerjaData'])->name('komentar-program-kerja.update');
-        Route::delete('/{id}', [KomentarProgramKerjaController::class, 'DeleteKomentarProgramKerjaData'])->name('komentar-program-kerja.delete');
-    });
 
     Route::prefix("/bimbingan")->group(function () {
         Route::get('/', [BimbinganController::class, 'GetAllBimbinganData'])->name('bimbingan.all');

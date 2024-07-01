@@ -11,7 +11,7 @@ class KomentarLaporanDataRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class KomentarLaporanDataRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => ['required', 'string'],
+            'body' => ['required', 'string'],
+            'id_laporan' => ['required', 'integer'],
+            'id_kelompok' => ['required', 'integer'],
         ];
     }
 }
