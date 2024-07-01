@@ -5,6 +5,7 @@ use App\Http\Controllers\BimbinganController;
 use App\Http\Controllers\KelompokController;
 use App\Http\Controllers\KomentarKelompokController;
 use App\Http\Controllers\KomentarProgramKerjaController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProgramKerjaController;
 use Illuminate\Support\Facades\Route;
 
@@ -73,6 +74,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{id}', [BimbinganController::class, 'DeleteBimbinganData'])->name('bimbingan.delete');
     });
 
+    Route::prefix("/laporan")->group(function () {
+        Route::get('/', [LaporanController::class, 'GetAllLaporanData'])->name('laporan.all');
+        Route::get('/{id}', [LaporanController::class, 'GetLaporanData'])->name('laporan.spesific');
+        Route::post('/', [LaporanController::class, 'StoreLaporanData'])->name('laporan.store');
+        Route::put('/{id}', [LaporanController::class, 'UpdateLaporanData'])->name('laporan.update');
+        Route::delete('/{id}', [LaporanController::class, 'DeleteLaporanData'])->name('laporan.delete');
+        Route::put('/{id}/status', [LaporanController::class, 'UpdateLaporanStatus'])->name('laporan.updateStatus');
+    });
 
 });
 

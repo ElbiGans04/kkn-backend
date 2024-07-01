@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('judul_laporan');
             $table->string('body_laporan');
             $table->foreignId('id_kelompok')->constrained( table: 'kelompok', indexName: 'posts_kelompok5_id', column: 'id_kelompok');
-            $table->boolean('approve');
+            $table->enum('approve', ['approve', 'reject', 'review']);
             $table->timestamps();
         });
     }
