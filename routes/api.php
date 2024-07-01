@@ -7,6 +7,7 @@ use App\Http\Controllers\KomentarKelompokController;
 use App\Http\Controllers\KomentarLaporanController;
 use App\Http\Controllers\KomentarProgramKerjaController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\ProgramKerjaController;
 use App\Http\Controllers\SidangController;
 use Illuminate\Support\Facades\Route;
@@ -103,6 +104,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{id}', [SidangController::class, 'UpdateSidangData'])->name('sidang.update');
         Route::delete('/{id}', [SidangController::class, 'DeleteSidangData'])->name('sidang.delete');
         Route::put('/{id}/status', [SidangController::class, 'UpdateSidangStatus'])->name('sidang.updateStatus');
+    });
+
+    Route::prefix("/nilai")->group(function () {
+        Route::get('/', [NilaiController::class, 'GetAllNilaiData'])->name('nilai.all');
+        Route::get('/{id}', [NilaiController::class, 'GetNilaiData'])->name('nilai.spesific');
+        Route::post('/', [NilaiController::class, 'StoreNilaiData'])->name('nilai.store');
+        Route::put('/{id}', [NilaiController::class, 'UpdateNilaiData'])->name('nilai.update');
+        Route::delete('/{id}', [NilaiController::class, 'DeleteNilaiData'])->name('nilai.delete');
     });
 });
 
