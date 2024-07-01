@@ -8,6 +8,7 @@ use App\Http\Controllers\KomentarLaporanController;
 use App\Http\Controllers\KomentarProgramKerjaController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProgramKerjaController;
+use App\Http\Controllers\SidangController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -95,6 +96,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{id}/status', [LaporanController::class, 'UpdateLaporanStatus'])->name('laporan.updateStatus');
     });
 
+    Route::prefix("/sidang")->group(function () {
+        Route::get('/', [SidangController::class, 'GetAllSidangData'])->name('sidang.all');
+        Route::get('/{id}', [SidangController::class, 'GetSidangData'])->name('sidang.spesific');
+        Route::post('/', [SidangController::class, 'StoreSidangData'])->name('sidang.store');
+        Route::put('/{id}', [SidangController::class, 'UpdateSidangData'])->name('sidang.update');
+        Route::delete('/{id}', [SidangController::class, 'DeleteSidangData'])->name('sidang.delete');
+        Route::put('/{id}/status', [SidangController::class, 'UpdateSidangStatus'])->name('sidang.updateStatus');
+    });
 });
 
 
