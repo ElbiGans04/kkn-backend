@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AkademikController;
 use App\Http\Controllers\AuthCustomController;
 use App\Http\Controllers\BimbinganController;
 use App\Http\Controllers\KelompokController;
@@ -112,6 +113,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [NilaiController::class, 'StoreNilaiData'])->name('nilai.store');
         Route::put('/{id}', [NilaiController::class, 'UpdateNilaiData'])->name('nilai.update');
         Route::delete('/{id}', [NilaiController::class, 'DeleteNilaiData'])->name('nilai.delete');
+    });
+
+    Route::prefix("/akademik")->group(function () {
+        Route::get('/', [AkademikController::class, 'GetAllAkademikData'])->name('akademik.all');
+        Route::get('/{id}', [AkademikController::class, 'GetAkademikData'])->name('akademik.spesific');
+        Route::post('/', [AkademikController::class, 'StoreAkademikData'])->name('akademik.store');
+        Route::put('/{id}', [AkademikController::class, 'UpdateAkademikData'])->name('akademik.update');
+        Route::delete('/{id}', [AkademikController::class, 'DeleteAkademikData'])->name('akademik.delete');
     });
 });
 

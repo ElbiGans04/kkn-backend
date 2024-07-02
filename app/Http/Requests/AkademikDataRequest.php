@@ -11,7 +11,7 @@ class AkademikDataRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class AkademikDataRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "sks" => ['required', 'integer'],
+            "semester_saat_ini" => ['required', 'integer'],
+            "ipk" => ['required', 'integer'],
+            "nim_mahasiswa" => ['required', 'string'],
         ];
     }
 }
