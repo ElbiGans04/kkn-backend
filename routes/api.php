@@ -3,6 +3,7 @@
 use App\Http\Controllers\AkademikController;
 use App\Http\Controllers\AuthCustomController;
 use App\Http\Controllers\BimbinganController;
+use App\Http\Controllers\KelasController;
 use App\Http\Controllers\KelompokController;
 use App\Http\Controllers\KomentarKelompokController;
 use App\Http\Controllers\KomentarLaporanController;
@@ -130,6 +131,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [ProdiController::class, 'StoreProdiData'])->name('prodi.store');
         Route::put('/{id}', [ProdiController::class, 'UpdateProdiData'])->name('prodi.update');
         Route::delete('/{id}', [ProdiController::class, 'DeleteProdiData'])->name('prodi.delete');
+    });
+
+    Route::prefix("/kelas")->group(function () {
+        Route::get('/', [KelasController::class, 'GetAllKelasData'])->name('kelas.all');
+        Route::get('/{id}', [KelasController::class, 'GetKelasData'])->name('kelas.spesific');
+        Route::post('/', [KelasController::class, 'StoreKelasData'])->name('kelas.store');
+        Route::put('/{id}', [KelasController::class, 'UpdateKelasData'])->name('kelas.update');
+        Route::delete('/{id}', [KelasController::class, 'DeleteKelasData'])->name('kelas.delete');
     });
 });
 
