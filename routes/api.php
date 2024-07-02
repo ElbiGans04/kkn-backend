@@ -9,6 +9,7 @@ use App\Http\Controllers\KomentarLaporanController;
 use App\Http\Controllers\KomentarProgramKerjaController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\NilaiController;
+use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\ProgramKerjaController;
 use App\Http\Controllers\SidangController;
 use Illuminate\Support\Facades\Route;
@@ -121,6 +122,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [AkademikController::class, 'StoreAkademikData'])->name('akademik.store');
         Route::put('/{id}', [AkademikController::class, 'UpdateAkademikData'])->name('akademik.update');
         Route::delete('/{id}', [AkademikController::class, 'DeleteAkademikData'])->name('akademik.delete');
+    });
+
+    Route::prefix("/prodi")->group(function () {
+        Route::get('/', [ProdiController::class, 'GetAllProdiData'])->name('prodi.all');
+        Route::get('/{id}', [ProdiController::class, 'GetProdiData'])->name('prodi.spesific');
+        Route::post('/', [ProdiController::class, 'StoreProdiData'])->name('prodi.store');
+        Route::put('/{id}', [ProdiController::class, 'UpdateProdiData'])->name('prodi.update');
+        Route::delete('/{id}', [ProdiController::class, 'DeleteProdiData'])->name('prodi.delete');
     });
 });
 
