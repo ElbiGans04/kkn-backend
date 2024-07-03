@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Enums\StatusPersetujuan;
 use App\Http\Requests\LaporanDataRequest;
-use App\Models\Anggota;
-use App\Models\Dosen;
 use App\Models\Kelompok;
 use App\Models\Laporan;
 use App\Models\Mahasiswa;
+use App\Models\ProgramKerja;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -56,6 +55,23 @@ class LaporanController extends Controller
             return response(
                 [
                     'message' => 'Kelompok tidak ditemukan'
+                ],
+                404
+            );
+        }
+
+
+        $proker = ProgramKerja::where(
+            [
+                ['id_kelompok', $kelompok['id_kelompok']],
+                ['approve', StatusPersetujuan::approve->value],
+            ]
+        )->first();
+
+        if (!isset($proker)) {
+            return response(
+                [
+                    'message' => 'Harap Membuat Program Kerja Terlebih Dahulu'
                 ],
                 404
             );

@@ -8,6 +8,7 @@ use App\Http\Requests\SidangDataRequest;
 use App\Models\Anggota;
 use App\Models\Mahasiswa;
 use App\Models\Nilai;
+use App\Models\Sidang;
 use Illuminate\Support\Facades\DB;
 
 class NilaiController extends Controller

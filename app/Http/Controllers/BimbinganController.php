@@ -6,12 +6,13 @@ use App\Enums\StatusPersetujuan;
 use App\Http\Requests\BimbinganDataRequest;
 use App\Models\Bimbingan;
 use App\Models\Kelompok;
+use App\Models\ProgramKerja;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class BimbinganController extends Controller
 {
-     /**
+    /**
      * Return All Data
      */
     public function GetAllBimbinganData()
@@ -49,6 +50,22 @@ class BimbinganController extends Controller
             return response(
                 [
                     'message' => 'Kelompok tidak ditemukan'
+                ],
+                404
+            );
+        }
+
+        $proker = ProgramKerja::where(
+            [
+                ['id_kelompok', $kelompok['id_kelompok']],
+                ['approve', StatusPersetujuan::approve->value],
+            ]
+        )->first();
+
+        if (!isset($proker)) {
+            return response(
+                [
+                    'message' => 'Harap Membuat Program Kerja Terlebih Dahulu'
                 ],
                 404
             );
