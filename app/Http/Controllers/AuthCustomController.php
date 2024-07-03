@@ -22,8 +22,12 @@ class AuthCustomController extends Controller
             $user = null;
 
             if (isset($mahasiswa)) {
-                $user = User::all()->where('id', '=', $mahasiswa['id_user'])->where('tipe_akun', '=', TipeAkun::mahasiswa->value)->first();
+                $user = User::where([
+                    ['id', $mahasiswa['id_user']],
+                    ['tipe_akun', TipeAkun::mahasiswa->value]
+                ])->first();
             }
+
 
             // Jika akun tidak ditemukan
             if (!isset($mahasiswa) || !isset($user)) {
@@ -32,6 +36,16 @@ class AuthCustomController extends Controller
                 ];
             }
 
+            // Check Password
+            if (!Hash::check($data['password'], $user['password'])) {
+                return response(
+                    [
+                        'message' => 'Password tidak sesuai'
+                    ]
+                );
+            }
+
+            $user->tokens()->delete();
             // Sudah Terdaftar Sebagai anggota
             $alreadyRegisterAsMember = Anggota::where('nim_mahasiswa', '=', $data['id'])->first();
             if (isset($alreadyRegisterAsMember)) {
@@ -50,7 +64,7 @@ class AuthCustomController extends Controller
         $user = null;
 
         if (isset($dosen)) {
-            $user = User::all()->where('id', '=', $dosen['id_user'])->where('tipe_akun', '=', TipeAkun::dosen_pembimbing->value)->first();
+            $user = User::all()->where('id', '=', $dosen['id_user'])->first();
         }
 
         // Jika akun tidak ditemukan
@@ -59,7 +73,18 @@ class AuthCustomController extends Controller
                 "message" => "Akun Tidak Ditemukan",
             ];
         }
-        
+
+        // Check Password
+        if (!Hash::check($data['password'], $user['password'])) {
+            return response(
+                [
+                    'message' => 'Password tidak sesuai'
+                ]
+            );
+        }
+
+        $user->tokens()->delete();
+
         return [
             'token' => $user->createToken('kkn-app')->plainTextToken,
         ];
@@ -77,19 +102,19 @@ class AuthCustomController extends Controller
     function getUserDetail(Request $request)
     {
         $data = $request->user();
-        
-        switch ($data['tipe_akun']) {
-            case TipeAkun::mahasiswa->value : {
-                $detail = Mahasiswa::where('id_user', '=', $data['id'])->first();
-                break;
-            }
 
-            default : {
-                $detail = Dosen::where('id_user', '=', $data['id'])->first();
-                break;
-            }
+        switch ($data['tipe_akun']) {
+            case TipeAkun::mahasiswa->value: {
+                    $detail = Mahasiswa::where('id_user', '=', $data['id'])->first();
+                    break;
+                }
+
+            default: {
+                    $detail = Dosen::where('id_user', '=', $data['id'])->first();
+                    break;
+                }
         }
-        
+
         return response(
             [
                 "data" => [
@@ -100,7 +125,8 @@ class AuthCustomController extends Controller
         );
     }
 
-    function loginGet () {
+    function loginGet()
+    {
         return response(
             [
                 "message" => "Have To Login First"
