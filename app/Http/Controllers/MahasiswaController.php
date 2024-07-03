@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TipeAkun;
 use App\Http\Requests\MahasiswaDataRequest;
 use App\Models\Gender;
 use App\Models\Kelas;
@@ -83,6 +84,7 @@ class MahasiswaController extends Controller
             $user->email = $data['email'];
             $user->password = $data['password'];
             $user->name = $data['nama'];
+            $user->tipe_akun = TipeAkun::mahasiswa->value;
             $user->save();
             // Buat Kelompok
             $mahasiswa = new Mahasiswa();
