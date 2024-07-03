@@ -11,7 +11,7 @@ class DosenDataRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class DosenDataRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nid' => ['required', 'string'],
+            'nama' => ['required', 'string'],
+            'tanggal_lahir' => ['required', 'date'],
+            'alamat' => ['required', 'string'],
+            'id_gender' => ['required', 'integer'],
+            'email' => ['required', 'string'],
+            'password' => ['required', 'string'],
         ];
     }
 }

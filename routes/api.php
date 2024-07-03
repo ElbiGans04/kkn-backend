@@ -3,6 +3,7 @@
 use App\Http\Controllers\AkademikController;
 use App\Http\Controllers\AuthCustomController;
 use App\Http\Controllers\BimbinganController;
+use App\Http\Controllers\DosenController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\KelompokController;
 use App\Http\Controllers\KomentarKelompokController;
@@ -142,7 +143,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{id}', [KelasController::class, 'DeleteKelasData'])->name('kelas.delete');
     });
 
-    // Belum
     Route::prefix("/mahasiswa")->group(function () {
         Route::get('/', [MahasiswaController::class, 'GetAllMahasiswaData'])->name('mahasiswa.all');
         Route::get('/{id}', [MahasiswaController::class, 'GetMahasiswaData'])->name('mahasiswa.spesific');
@@ -151,13 +151,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{id}', [MahasiswaController::class, 'DeleteMahasiswaData'])->name('mahasiswa.delete');
     });
 
-    // Belum
     Route::prefix("/dosen")->group(function () {
-        Route::get('/', [MahasiswaController::class, 'GetAllMahasiswaData'])->name('mahasiswa.all');
-        Route::get('/{id}', [MahasiswaController::class, 'GetMahasiswaData'])->name('mahasiswa.spesific');
-        Route::post('/', [MahasiswaController::class, 'StoreMahasiswaData'])->name('mahasiswa.store');
-        Route::put('/{id}', [MahasiswaController::class, 'UpdateMahasiswaData'])->name('mahasiswa.update');
-        Route::delete('/{id}', [MahasiswaController::class, 'DeleteMahasiswaData'])->name('mahasiswa.delete');
+        Route::get('/', [DosenController::class, 'GetAllDosenData'])->name('dosen.all');
+        Route::get('/{id}', [DosenController::class, 'GetDosenData'])->name('dosen.spesific');
+        Route::post('/', [DosenController::class, 'StoreDosenData'])->name('dosen.store');
+        Route::put('/{id}', [DosenController::class, 'UpdateDosenData'])->name('dosen.update');
+        Route::delete('/{id}', [DosenController::class, 'DeleteDosenData'])->name('dosen.delete');
     });
 });
 
