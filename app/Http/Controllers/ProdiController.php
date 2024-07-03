@@ -6,6 +6,7 @@ use App\Http\Requests\ProdiDataRequest;
 use App\Models\Akademik;
 use App\Models\Prodi;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class ProdiController extends Controller
 {
@@ -33,6 +34,7 @@ class ProdiController extends Controller
      */
     public function StoreProdiData(ProdiDataRequest $request)
     {
+        Gate::authorize('allow', Prodi::class);
         $data = $request->validated();
 
         DB::transaction(function () use ($data) {
@@ -52,6 +54,7 @@ class ProdiController extends Controller
      */
     public function UpdateProdiData($id, ProdiDataRequest $request)
     {
+        Gate::authorize('allow', Prodi::class);
         $data = $request->validated();
 
         $kelompok = Prodi::where(
@@ -88,6 +91,7 @@ class ProdiController extends Controller
      */
     public function DeleteProdiData($id)
     {
+        Gate::authorize('allow', Prodi::class);
         $kelompok = Prodi::where(
             [
                 ['id_prodi', $id],

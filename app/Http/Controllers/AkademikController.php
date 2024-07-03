@@ -11,6 +11,7 @@ use App\Models\Kelompok;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class AkademikController extends Controller
 {
@@ -38,6 +39,7 @@ class AkademikController extends Controller
      */
     public function StoreAkademikData(AkademikDataRequest $request)
     {
+        Gate::authorize('allow', Akademik::class);
         $data = $request->validated();
         $kelompok = Mahasiswa::where(
             [

@@ -10,6 +10,7 @@ use App\Models\Mahasiswa;
 use App\Models\Prodi;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class MahasiswaController extends Controller
 {
@@ -37,6 +38,7 @@ class MahasiswaController extends Controller
      */
     public function StoreMahasiswaData(MahasiswaDataRequest $request)
     {
+        Gate::authorize('allow', Mahasiswa::class);
         $data = $request->validated();
         $isExist = Gender::find($data['id_gender']);
         if (!isset($isExist)) {
@@ -110,6 +112,7 @@ class MahasiswaController extends Controller
      */
     public function UpdateMahasiswaData($id, MahasiswaDataRequest $request)
     {
+        Gate::authorize('allow', Mahasiswa::class);
         $data = $request->validated();
         $isExist = Gender::find($data['id_gender']);
         if (!isset($isExist)) {
@@ -189,6 +192,7 @@ class MahasiswaController extends Controller
      */
     public function DeleteMahasiswaData($id)
     {
+        Gate::authorize('allow', Mahasiswa::class);
         $kelompok = Mahasiswa::find($id);
 
         // Check apakah dosen sudah menjadi pembimbing dimanapun

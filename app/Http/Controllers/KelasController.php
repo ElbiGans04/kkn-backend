@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\KelasDataRequest;
-use App\Http\Requests\ProdiDataRequest;
 use App\Models\Kelas;
-use App\Models\Prodi;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class KelasController extends Controller
 {
@@ -34,6 +33,7 @@ class KelasController extends Controller
      */
     public function StoreKelasData(KelasDataRequest $request)
     {
+        Gate::authorize('allow', Kelas::class);
         $data = $request->validated();
 
         DB::transaction(function () use ($data) {
@@ -54,8 +54,8 @@ class KelasController extends Controller
      */
     public function UpdateKelasData($id, KelasDataRequest $request)
     {
+        Gate::authorize('allow', Kelas::class);
         $data = $request->validated();
-
         $kelompok = Kelas::where(
             [
                 ['id_kelas', $id],
@@ -91,6 +91,7 @@ class KelasController extends Controller
      */
     public function DeleteKelasData($id)
     {
+        Gate::authorize('allow', Kelas::class);
         $kelompok = Kelas::where(
             [
                 ['id_kelas', $id],

@@ -12,6 +12,7 @@ use App\Models\Mahasiswa;
 use App\Models\Prodi;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class DosenController extends Controller
 {
@@ -39,6 +40,7 @@ class DosenController extends Controller
      */
     public function StoreDosenData(DosenDataRequest $request)
     {
+        Gate::authorize('allow', Dosen::class);
         $data = $request->validated();
         $isExist = Gender::find($data['id_gender']);
         if (!isset($isExist)) {
@@ -89,6 +91,7 @@ class DosenController extends Controller
      */
     public function UpdateDosenData($id, DosenDataRequest $request)
     {
+        Gate::authorize('allow', Dosen::class);
         $data = $request->validated();
         $isExist = Gender::find($data['id_gender']);
         if (!isset($isExist)) {
@@ -145,6 +148,7 @@ class DosenController extends Controller
      */
     public function DeleteDosenData($id)
     {
+        Gate::authorize('allow', Dosen::class);
         $kelompok = Dosen::find($id);
 
         // Check apakah dosen sudah menjadi pembimbing dimanapun

@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\TipeAkun;
 use App\Models\User;
 
 class ProdiPolicy
@@ -12,5 +13,9 @@ class ProdiPolicy
     public function __construct()
     {
         //
+    }
+
+    public function allow (User $user) {
+        return $user->tipe_akun == TipeAkun::admin->value;
     }
 }

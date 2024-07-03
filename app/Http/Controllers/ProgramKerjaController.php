@@ -12,6 +12,7 @@ use App\Models\Mahasiswa;
 use App\Models\ProgramKerja;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class ProgramKerjaController extends Controller
@@ -40,6 +41,7 @@ class ProgramKerjaController extends Controller
      */
     public function StoreProgramKerjaData(ProgramKerjaDataRequest $request)
     {
+        Gate::authorize('allow', ProgramKerja::class);
         $data = $request->validated();
         $detailCurrentUser = Mahasiswa::where('id_user', '=', $request->user()['id'])->first();
         // Hanya mencari kelompok yang sudah disetujui
