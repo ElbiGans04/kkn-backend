@@ -13,7 +13,7 @@ class Gender extends Model
      *
      * @var string
      */
-    protected $table = 'gender';
+    protected $table = 'genders';
     /**
      * The primary key associated with the table.
      *

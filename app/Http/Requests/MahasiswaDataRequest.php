@@ -11,7 +11,7 @@ class MahasiswaDataRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,16 @@ class MahasiswaDataRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nim' => ['required', 'string'],
+            'nama' => ['required', 'string'],
+            'tanggal_lahir' => ['required', 'date'],
+            'alamat' => ['required', 'string'],    
+            'nomor_telephone' => ['required', 'string'],
+            'id_gender' => ['required', 'integer'],
+            'id_kelas' => ['required', 'integer'],
+            'id_prodi' => ['required', 'integer'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string'],
         ];
     }
 }

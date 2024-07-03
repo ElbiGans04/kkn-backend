@@ -9,6 +9,7 @@ use App\Http\Controllers\KomentarKelompokController;
 use App\Http\Controllers\KomentarLaporanController;
 use App\Http\Controllers\KomentarProgramKerjaController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\ProgramKerjaController;
@@ -64,7 +65,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::put('/{id}', [KomentarKelompokController::class, 'UpdateKomentarKelompokData'])->name('komentar-kelompok.update');
             Route::delete('/{id}', [KomentarKelompokController::class, 'DeleteKomentarKelompokData'])->name('komentar-kelompok.delete');
         });
-    
+
         Route::prefix("program-kerja")->group(function () {
             Route::get('/', [KomentarProgramKerjaController::class, 'GetAllKomentarProgramKerjaData'])->name('komentar-program-kerja.all');
             Route::get('/{id}', [KomentarProgramKerjaController::class, 'GetKomentarProgramKerjaData'])->name('komentar-program-kerja.spesific');
@@ -139,6 +140,24 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [KelasController::class, 'StoreKelasData'])->name('kelas.store');
         Route::put('/{id}', [KelasController::class, 'UpdateKelasData'])->name('kelas.update');
         Route::delete('/{id}', [KelasController::class, 'DeleteKelasData'])->name('kelas.delete');
+    });
+
+    // Belum
+    Route::prefix("/mahasiswa")->group(function () {
+        Route::get('/', [MahasiswaController::class, 'GetAllMahasiswaData'])->name('mahasiswa.all');
+        Route::get('/{id}', [MahasiswaController::class, 'GetMahasiswaData'])->name('mahasiswa.spesific');
+        Route::post('/', [MahasiswaController::class, 'StoreMahasiswaData'])->name('mahasiswa.store');
+        Route::put('/{id}', [MahasiswaController::class, 'UpdateMahasiswaData'])->name('mahasiswa.update');
+        Route::delete('/{id}', [MahasiswaController::class, 'DeleteMahasiswaData'])->name('mahasiswa.delete');
+    });
+
+    // Belum
+    Route::prefix("/dosen")->group(function () {
+        Route::get('/', [MahasiswaController::class, 'GetAllMahasiswaData'])->name('mahasiswa.all');
+        Route::get('/{id}', [MahasiswaController::class, 'GetMahasiswaData'])->name('mahasiswa.spesific');
+        Route::post('/', [MahasiswaController::class, 'StoreMahasiswaData'])->name('mahasiswa.store');
+        Route::put('/{id}', [MahasiswaController::class, 'UpdateMahasiswaData'])->name('mahasiswa.update');
+        Route::delete('/{id}', [MahasiswaController::class, 'DeleteMahasiswaData'])->name('mahasiswa.delete');
     });
 });
 
