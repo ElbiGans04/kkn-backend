@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\JenisKelompok;
 use App\Enums\TipeAkun;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AnggotaDataRequest extends FormRequest
 {
@@ -27,6 +29,8 @@ class AnggotaDataRequest extends FormRequest
         return [
             "anggota"    => "required|array|max:5|min:1",
             "anggota.*"  => "required|numeric",
+            "lokasi_kkn" => 'required|string',
+            "jenis" => ['required', Rule::enum(JenisKelompok::class)],
         ];
     }
 }

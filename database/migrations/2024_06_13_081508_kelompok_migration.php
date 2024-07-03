@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\JenisKelompok;
 use App\Enums\StatusPersetujuan;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,6 +19,8 @@ return new class extends Migration
             $table->string('nim_ketua_kelompok');
             $table->foreign('nim_ketua_kelompok')->references('nim')->on('mahasiswa');
             $table->enum('approve', ['approve', 'reject', 'review'])->default(StatusPersetujuan::review);
+            $table->string('lokasi_kkn');
+            $table->enum('jenis', ['KKN', 'KKP'])->default(JenisKelompok::KKN);
             $table->timestamps();
         });
     }

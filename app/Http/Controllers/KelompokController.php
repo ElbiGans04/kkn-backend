@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\JenisKelompok;
 use App\Enums\StatusPersetujuan;
 use App\Http\Requests\AnggotaDataRequest;
 use App\Models\Anggota;
@@ -41,34 +42,12 @@ class KelompokController extends Controller
         $data = $request->validated();
         $detailCurrentUser = Mahasiswa::where('id_user', '=', $request->user()['id'])->first();
 
-        $found = array_search($detailCurrentUser['nim'], $data['anggota']);
-        if (is_int($found)) {
-            return response(
-                [
-                    "message" => "Tidak dapat menjadikan diri sendiri sebagai anggota"
-                ],
-                400
-            );
-        }
-
         // Filter Change
         $calonMember = [...$data['anggota'], $detailCurrentUser['nim']];
         $alreadyRegister = Anggota::whereIn('nim_mahasiswa', $calonMember)->join('kelompok', 'anggota.id_kelompok', '=', 'kelompok.id_kelompok')->get();
         $isLeader = Kelompok::whereIn('nim_ketua_kelompok', $calonMember)->get();
 
         // Filter
-        foreach ($alreadyRegister as $item) {
-            if ($item['approve'] != StatusPersetujuan::reject->value) {
-                $username = $item['nim_mahasiswa'] == $detailCurrentUser['nim'] ? "Anda" : "Anggota dengan nim {$item['nim_mahasiswa']}";
-                return response(
-                    [
-                        "message" => "$username sudah terdaftar dalam kelompok lain"
-                    ],
-                    400
-                );
-            }
-        }
-
         foreach ($isLeader as $item) {
             if ($item['approve'] != StatusPersetujuan::reject->value) {
                 $username = $item['nim_ketua_kelompok'] == $detailCurrentUser['nim'] ? "Anda" : "Anggota dengan nim {$item['nim_mahasiswa']}";
@@ -81,6 +60,36 @@ class KelompokController extends Controller
             }
         }
 
+        // Kalau KKP
+        if ($data['jenis'] == JenisKelompok::KKP->value) {
+            DB::transaction(function () use ($detailCurrentUser, $data) {
+                $kelompok = new Kelompok();
+                $kelompok->nim_ketua_kelompok = $detailCurrentUser['nim'];
+                $kelompok->jenis = JenisKelompok::KKP->value;
+                $kelompok->lokasi_kkn = $data['lokasi_kkn'];
+                $kelompok->save();
+            });
+            return response(
+                [
+                    "message" => "Berhasil membuat data Baru"
+                ],
+                201
+            );
+        }
+
+        foreach ($alreadyRegister as $item) {
+            if ($item['approve'] != StatusPersetujuan::reject->value) {
+                $username = $item['nim_mahasiswa'] == $detailCurrentUser['nim'] ? "Anda" : "Anggota dengan nim {$item['nim_mahasiswa']}";
+                return response(
+                    [
+                        "message" => "$username sudah terdaftar dalam kelompok lain"
+                    ],
+                    400
+                );
+            }
+        }
+
+
         // $isAlreadyBeLeader = (isset($isLeader) && $isLeader['approve'] != StatusPersetujuan::reject->value);
         // if ((isset($alreadyRegister) && $alreadyRegister['approve'] != StatusPersetujuan::reject->value) || $isAlreadyBeLeader) {
         //     return response(
@@ -90,6 +99,16 @@ class KelompokController extends Controller
         //         400
         //     );
         // }
+
+        $found = array_search($detailCurrentUser['nim'], $data['anggota']);
+        if (is_int($found)) {
+            return response(
+                [
+                    "message" => "Tidak dapat menjadikan diri sendiri sebagai anggota"
+                ],
+                400
+            );
+        }
 
         for ($index = 0; $index < count($data['anggota']); $index++) {
             $currentMahasiswaNim = $data['anggota'][$index];
@@ -101,11 +120,12 @@ class KelompokController extends Controller
             };
         }
 
-
         DB::transaction(function () use ($data, $detailCurrentUser) {
             // Buat Kelompok
             $kelompokBaru = new Kelompok();
             $kelompokBaru->nim_ketua_kelompok = $detailCurrentUser['nim'];
+            $kelompokBaru->jenis = $data['jenis'];
+            $kelompokBaru->lokasi_kkn = $data['lokasi_kkn'];
             $kelompokBaru->save();
 
             for ($index = 0; $index < count($data['anggota']); $index++) {
@@ -128,6 +148,8 @@ class KelompokController extends Controller
     public function UpdateKelompokData($id, AnggotaDataRequest $request)
     {
         $data = $request->validated();
+
+
         $isExist = Kelompok::find($id);
 
         if (!isset($isExist)) {
@@ -137,6 +159,13 @@ class KelompokController extends Controller
             );
         }
 
+        if ($isExist['jenis'] == JenisKelompok::KKP->value) {
+            return response(
+                [
+                    "message" => "Jenis KKP tidak bisa di edit"
+                ]
+            );
+        }
         // $alreadyRegister = Anggota::with(['kelompok'])->whereIn('nim_mahasiswa', $data['anggota'])->whereNot('id_kelompok', $id)->first();
 
         // if (isset($alreadyRegister) && $alreadyRegister['approve'] != StatusPersetujuan::reject->value) {
